@@ -297,8 +297,8 @@ fn help_text(feedback: bool) -> String {
          \x20\x20\x20\x20xerj share <index|folder>           give someone read-only search over one\n\
          \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20index: link + passcode + expiry (see xerj\n\
          \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20share --help)\n\
-         \x20\x20\x20\x20xerj feedback [OPTIONS]             draft the agent field report (and open its\n\
-         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20PR) — see xerj feedback --help\n\
+         \x20\x20\x20\x20xerj feedback [OPTIONS]             draft or --submit the agent field report —\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20see xerj feedback --help\n\
          \n\
          OPTIONS (for `xerj [OPTIONS]`, the bare server start):\n\
          \x20\x20\x20\x20--config,   -c <PATH>  Path to TOML config file. CORS is off by default (no\n\
@@ -414,8 +414,8 @@ fn help_text(feedback: bool) -> String {
          \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Proxies to a node you already started — set XERJ_URL or\n\
          \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20--url (see xerj mcp --help)\n\
          \x20\x20\x20\x20xerj feedback   [opts]          draft the agent field report XERJ asks every agent to\n\
-         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20file, auto-filling version/OS/what-was-indexed; --open-pr\n\
-         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20files it, --dry-run just prints (see xerj feedback --help)\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20file; --submit sends it (GitHub PR first, API fallback),\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20--dry-run just prints (see xerj feedback --help)\n\
          \n\
          SEARCHING A CODEBASE:\n\
          \x20\x20\x20\x20A search hit returns the whole indexed document, which for source code is the\n\
@@ -491,14 +491,33 @@ fn ask_help_lines(hub: bool) -> &'static str {
          \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20(see xerj ask --help); `xerj \"<question>\"`\n\
          \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20is the same\n"
     } else {
-        "\x20\x20\x20\x20xerj ask \"<question>\"               Corpus Hub answers: not available in this\n\
-         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20build (no hub signing key; exits 5) - use\n\
-         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20xerj corpus + xerj code instead\n"
+        "\x20\x20\x20\x20xerj ask \"<question>\"              Corpus Hub answers: not available in this\n\
+         \x20\x20\x20\x20build (no hub signing key; exits 5).\n\
+         \x20\x20\x20\x20A folder you autoindexed: xerj search / xerj def.\n\
+         \x20\x20\x20\x20Public libraries: xerj corpus + xerj code\n"
     }
 }
 
 /// How many tools `xerj mcp` serves — the length of the same `tool_specs()`
 /// array its `tools/list` returns.
+#[cfg(test)]
+mod ask_help_tests {
+    use super::ask_help_lines;
+
+    #[test]
+    fn a_build_without_a_hub_key_does_not_send_ask_at_the_local_index() {
+        let lines = ask_help_lines(false);
+        assert!(lines.contains("exits 5"), "{lines}");
+        assert!(lines.contains("xerj search"), "{lines}");
+        assert!(lines.contains("xerj def"), "{lines}");
+        assert!(lines.contains("xerj corpus"), "{lines}");
+        assert!(
+            ask_help_lines(true).contains("xerj ask"),
+            "a build with a key still documents the command"
+        );
+    }
+}
+
 fn mcp_tool_count() -> usize {
     xerj_mcp::tool_specs().as_array().map_or(0, Vec::len)
 }
@@ -1314,7 +1333,12 @@ fn bind_listener(addr: SocketAddr, name: &str) -> Result<std::net::TcpListener> 
     let listener = match std::net::TcpListener::bind(addr) {
         Ok(listener) => listener,
         Err(e) if e.kind() == std::io::ErrorKind::AddrInUse => {
-            anyhow::bail!("{}", addr_in_use_message(name, addr));
+            // The hint first, then the OS reason and the `bind {addr}` wording
+            // the #465 process test (`taken_port_fails_startup`) relies on.
+            anyhow::bail!(
+                "{} ({name}: bind {addr}: {e})",
+                addr_in_use_message(name, addr)
+            );
         }
         Err(e) => return Err(e).with_context(|| format!("{name}: bind {addr}")),
     };
@@ -1341,7 +1365,11 @@ mod bind_listener_tests {
         assert!(msg.contains("--auto-port"), "{msg}");
         assert!(msg.contains("xerj --help"), "{msg}");
         assert!(msg.contains(&addr.to_string()), "{msg}");
-        assert_eq!(msg, addr_in_use_message("ES-compat", addr));
+        assert!(
+            msg.starts_with(&addr_in_use_message("ES-compat", addr)),
+            "{msg}"
+        );
+        assert!(msg.contains(&format!("bind {addr}")), "{msg}");
     }
 }
 
@@ -2148,6 +2176,14 @@ fn main() -> Result<()> {
     #[cfg(unix)]
     raise_nofile_limit();
 
+    // Dispatch before creating Tokio's pool so each PDF worker stays small.
+    // Before the flag hoist below, too: the hoist reads `std::env::args()`,
+    // which panics on a non-UTF-8 argument, and a worker's PDF path may be
+    // one. Only `args_os` is read here.
+    if std::env::args_os().nth(1).as_deref() == Some(std::ffi::OsStr::new("__extract-pdf")) {
+        std::process::exit(xerj_autoindex::extract::pdf::run_worker_cli());
+    }
+
     // `xerj --url URL corpus index name` used to die here as an unknown
     // server flag. Move those flags behind the subcommand before any
     // dispatch reads argv.
@@ -2155,14 +2191,6 @@ fn main() -> Result<()> {
         &std::env::args().skip(1).collect::<Vec<_>>(),
         is_top_level_command,
     ));
-
-    // Dispatch before creating Tokio's pool so each PDF worker stays small.
-    if matches!(
-        xerj_common::argv::subcommand().as_deref(),
-        Some("__extract-pdf")
-    ) {
-        std::process::exit(xerj_autoindex::extract::pdf::run_worker_cli());
-    }
 
     // The isolated legacy-`.xls` BIFF reader. calamine 0.26.1 panics on crafted
     // records (short `Lbl`/`ExternSheet`) and the release profile is
@@ -2530,12 +2558,13 @@ mod decide_flag_tests {
     #[test]
     fn help_counts_the_mcp_tools_actually_served() {
         // #1443: the help said "exposes 13 tools" while `tools/list` served 16.
+        // `xerj_field_report` is a fourteenth non-hub tool (seventeen with the hub).
         let served = super::mcp_tool_count();
         if xerj_common::hub::hub_key_configured() {
-            assert!(served >= 16, "tool_specs() shrank to {served}");
+            assert!(served >= 17, "tool_specs() shrank to {served}");
         } else {
             assert_eq!(
-                served, 13,
+                served, 14,
                 "a no-key process must not count the hub tools it does not serve"
             );
         }
